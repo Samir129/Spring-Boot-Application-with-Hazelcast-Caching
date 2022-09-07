@@ -3,6 +3,7 @@ package com.example.springbootexampleproject.controller;
 import com.example.springbootexampleproject.entity.Product;
 import com.example.springbootexampleproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +29,10 @@ public class ProductController {
         return service.getProducts();
     }
 
+    @Cacheable(value = "PRODUCT", key="#id")
     @GetMapping("/product/{id}")
-    public Product findProductById(@PathVariable int id) {
+    public Product findProductById(@PathVariable int id) throws InterruptedException {
+        Thread.sleep(3000);
         return service.getProductById(id);
     }
 
